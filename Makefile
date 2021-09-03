@@ -10,24 +10,27 @@
 include sources.mk
 
 TARGET = test
-OBJS = $(SOURCES:.cpp=.o)
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := bin
+DEPS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.d, $(SOURCES))
+OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
 GFLAGS = -Wall -Werror -g -O0
-DEPS = $(SOURCES:.cpp=.d)
 CPPFLAGS = -E
 
 CC = g++
 SIZE = size
 OBJDUMP = objdump
 LD=ld
-LDFLAGS = -Wl,-Map=$(TARGET).map
+LDFLAGS = -Wl,-Map=$(OBJ_DIR)/$(TARGET).map
 
-%.o : %.cpp
+$(OBJ_DIR)/%.o : src/%.cpp
 	$(CC) $(INCLUDES) -c $< $(GFLAGS) -o $@
-%.i : %.cpp
+$(OBJ_DIR)/%.i : src/%.cpp
 	$(CC) $(INCLUDES) -c $(CPPFLAGS)  $< $(GFLAGS) -o $@
-%.asm : %.cpp
+$(OBJ_DIR)/%.asm : src/%.cpp
 	$(CC) $(INCLUDES) -S $< $(GFLAGS) -o $@
-%.d : %.cpp
+$(OBJ_DIR)/%.d : src/%.cpp
 	$(CC) $(INCLUDES) -M $< $(GFLAGS) -o $@
 
 .PHONY: all
@@ -36,15 +39,15 @@ build: all
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(INCLUDES) $(OBJS) $(GFLAGS) -o $@.out
+	$(CC) $(INCLUDES) $(OBJS) $(GFLAGS) $(LDFLAGS) -o $@.out
 
 .PHONY: compile-all
 compile-all: $(OBJS)
 	$(CC) $(INCLUDES) $(OBJS) -c $(GFLAGS) -o $(TARGET).out
 
-.PHONY: build
-build: $(OBJS) $(DEPS)
-	$(CC) $(INCLUDES) $(OBJS) $(GFLAGS) -o $(TARGET).out
+.PHONY: build 
+build: $(OBJS) $(DEPS) 
+	$(CC) $(INCLUDES) $(OBJS) $(GFLAGS) $(LDFLAGS) -o $(TARGET).out
 	$(SIZE) -Atd $(TARGET).out
 	$(SIZE) $(TARGET).out
 .PHONY: debug
