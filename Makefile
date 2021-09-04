@@ -58,4 +58,4 @@ debug: $(OBJS) $(DEPS)
 
 .PHONY: clean
 clean:
-	rm -f *.o *.i *.map *.out *.asm *.d
+	rm -f $(OBJ_DIR)/*.o $(OBJ_DIR)/*.i $(OBJ_DIR)/*.map $(OBJ_DIR)/*.out $(OBJ_DIR)/*.asm $(OBJ_DIR)/*.d ./*.out
