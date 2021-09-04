@@ -1,6 +1,17 @@
 #include <iostream>
 #include <vector>
-
+std::vector<unsigned char> bin2hex(std::vector<unsigned char> binString)
+{
+    int decNumber;
+    std::vector<unsigned char> hexString;
+    std::string hexRef = "0123456789abcdef";
+    for(long unsigned int i = 0; i < binString.size(); i = i+4)
+    {
+        decNumber = (binString[i+3] - '0') + (binString[i+2] - '0') * 2 + (binString[i+1] - '0') * 4 + (binString[i] - '0') * 8;
+        hexString.push_back(hexRef[decNumber]);
+    }
+    return(hexString);
+}
 std::vector<unsigned char> hex2bin(std::vector<unsigned char> hexString)
 {
     std::string binNumber;
@@ -57,6 +68,7 @@ std::vector<unsigned char> hex2bin(std::vector<unsigned char> hexString)
             case 'f':
                 binNumber = "1111";
                 break;
+
         }
         for (int j = 0; j < 4 ; j++)
         {
