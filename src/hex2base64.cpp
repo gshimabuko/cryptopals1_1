@@ -163,4 +163,47 @@ std::vector<unsigned char> bin2base64(std::vector<unsigned char> binString)
     return base64String;
     
 }
+std::vector<unsigned char> dec2bin(int base10)
+{
+    std::cout << base10 << std::endl;
+    std::vector<unsigned char> binary;
+    int remainder = 0;
+    if (base10 == 0)
+    {
+        binary.push_back('0');
+    }
+    while (base10 > 0)
+    {
+        remainder = base10%2;
+        if (remainder == 1)
+        {
+            binary.insert(binary.begin(), '1');
+        }
+        else
+        {
+            binary.insert(binary.begin(), '0');
+        }
+        base10 = base10/2;
+        std::cout << binary[0];
+    }
+    std::cout << std::endl;
+    return binary;
+}
+std::vector<unsigned char> bin2dec(std::vector<unsigned char> binString)
+{
+    int decNumber;
+    std::vector<unsigned char> decString;
+    for (long unsigned int i = 0; i < binString.size(); i = i + 8)
+    {
+        decNumber = (binString[i] - '0') + (binString[i+1] - '0') * 2 + (binString[i+2]- '0') * 4 + (binString[i+3] - '0') * 8 + (binString[i+4] - '0') * 16 + (binString[i+5] - '0') * 32 + (binString[i+6] - '0') * 64 + (binString[i+7] - '0') * 128;
+        decString.push_back(decNumber);
+       std::cout << binString[i + 7] << binString[i+6] << binString[i+5] << binString[i+4] << binString[i+3] << binString[i+2] << binString[i+1] << binString[i] << " ";
+       std::cout << decNumber << " ";
+    }
+    std::cout << "\n\n";
+    //std::cout << "\n\n";
+    
+    return decString;
+    
+}
 
