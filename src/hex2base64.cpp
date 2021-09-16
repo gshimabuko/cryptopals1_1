@@ -195,7 +195,7 @@ std::vector<unsigned char> bin2dec(std::vector<unsigned char> binString)
     std::vector<unsigned char> decString;
     for (long unsigned int i = 0; i < binString.size(); i = i + 8)
     {
-        decNumber = (binString[i] - '0') + (binString[i+1] - '0') * 2 + (binString[i+2]- '0') * 4 + (binString[i+3] - '0') * 8 + (binString[i+4] - '0') * 16 + (binString[i+5] - '0') * 32 + (binString[i+6] - '0') * 64 + (binString[i+7] - '0') * 128;
+        decNumber = (binString[i+7] - '0') + (binString[i+6] - '0') * 2 + (binString[i+5] - '0') * 4 + (binString[i+4]- '0') * 8 + (binString[i+3] - '0') * 16 + (binString[i+2] - '0') * 32 + (binString[i+1] - '0') * 64 + (binString[i] - '0') * 128;
         decString.push_back(decNumber);
        std::cout << binString[i + 7] << binString[i+6] << binString[i+5] << binString[i+4] << binString[i+3] << binString[i+2] << binString[i+1] << binString[i] << " ";
        std::cout << decNumber << " ";
